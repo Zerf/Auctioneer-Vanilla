@@ -357,9 +357,11 @@ function onEvent(request, event)
 	if (event == "ITEM_LOCK_CHANGED") then
 		-- Check if we are waiting for a stack to be complete.
 		request.lockEventsInCurrentState = request.lockEventsInCurrentState + 1;
-		if (request.lockEventsInCurrentState == 3 and
-			(request.state == SPLITTING_STACK_STATE or
-			 request.state == COMBINING_STACK_STATE or
+		if (request.lockEventsInCurrentState == 4 and
+			(request.state == SPLITTING_STACK_STATE)) then
+			setState(request, READY_STATE);
+		elseif (request.lockEventsInCurrentState == 3 and
+			(request.state == COMBINING_STACK_STATE or
 			 request.state == SPLITTING_AND_COMBINING_STACK_STATE)) then
 			-- Ready to move onto the next step.
 			setState(request, READY_STATE);
